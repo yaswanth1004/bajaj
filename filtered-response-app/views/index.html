@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Response</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>API Input</h2>
+        <textarea id="apiInput" rows="4" cols="50">{"data":["M","1","334","4","B"]}</textarea>
+        <button onclick="submitData()">Submit</button>
+
+        <h2>Multi Filter</h2>
+        <select id="filterType">
+            <option value="Numbers">Numbers</option>
+        </select>
+
+        <h3>Filtered Response</h3>
+        <div id="filteredResponse"></div>
+    </div>
+
+    <script>
+        function submitData() {
+            const input = document.getElementById('apiInput').value;
+            const jsonData = JSON.parse(input);
+            fetch('/filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('filteredResponse').innerText = 'Numbers: ' + data.numbers.join(',');
+            });
+        }
+    </script>
+</body>
+</html>
